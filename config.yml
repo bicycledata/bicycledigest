@@ -1,3 +1,8 @@
 ---
-threshold: 0.5
-button_file: "data/button.csv"
+Sources:
+  button_file: "data/button.csv"
+  lidar_file: "data/lidar.csv"
+OCOT:
+  OC: true
+  OT: true
+  threshold: 0.7
