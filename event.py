@@ -79,13 +79,13 @@ class Event:
                 elif diff_d < self.delta and diff_t > np.timedelta64(self.epsilon, "ms"):
                     for k in range(j + 1, i):
                         if (k, i) in edges:
-                            # not sure if need next 2 lines (only consider vertices k which are close enough to j -- though in practice the first one will be like that)
-                            tk, dk = self.vertices[k]
+                            # not sure if need next 2 lines (only consider
+                            # vertices k which are close enough to j -- though
+                            # in practice the first one will be like that)
+                            tk, _ = self.vertices[k]
                             if abs(tk - tj) < np.timedelta64(self.epsilon, "ms"):
                                 edges[(j, i)] = 1
                                 break
-                        else:
-                            break
         return edges
 
     def make_graph(self) -> ig.Graph:
