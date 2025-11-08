@@ -14,12 +14,17 @@ from event import *
 from session import BicycleSession
 
 logger = logging.getLogger(__name__)
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.INFO)
+file_handler = logging.FileHandler("digest.log")
+file_handler.setLevel(logging.DEBUG)
+
 logging.basicConfig(
     format="%(asctime)s.%(msecs)03d %(levelname)s %(message)s",
     encoding="utf-8",
-    level=logging.INFO,  # change to DEBUG for messages in event.py
+    level=logging.DEBUG,
     datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[logging.FileHandler("digest.log"), logging.StreamHandler()],  # logging to console as well
+    handlers=[stream_handler, file_handler],  # logging to console as well
 )
 
 
