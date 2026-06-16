@@ -177,6 +177,7 @@ class Event:
 
         part_candidates = []
         part_avgs = []
+
         for pt in self.p:
             if len(pt) < 4:
                 continue
@@ -185,7 +186,11 @@ class Event:
             part_candidates.append(pt)
             part_avgs.append(avg_latdist)
 
-        return part_candidates[np.argmin(part_avgs)]
+        if len(part_candidates) > 0:
+            return part_candidates[np.argmin(part_avgs)]
+
+        logging.error("No acceptable part found in the partition. Return empty part.")
+        return []
 
     def get_gps_trace(self, gps_df: pd.DataFrame) -> list:
         """
@@ -197,6 +202,12 @@ class Event:
 
         if self.etype == "oc":
             logging.error("GPS trace not implemented.")
+            return []
+
+        if self.t_list == []:
+            logging.error(
+                "No suitable event found in the lidar data. Empty part means no suitable part was found in partition. Setting gps trace to empty too."
+            )
             return []
 
         logging.debug("Constructing GPS trace.")
@@ -211,6 +222,9 @@ class Event:
         """
         Plot detected part against excerpt.
         """
+        if self.part == []:
+            logging.error("Event is empty, not plotting.")
+            return
 
         plt.clf()
         logging.debug("Plotting event and savin figure.")
@@ -247,5 +261,7 @@ class Event:
             },
         }
 
-        with open(os.path.join(self.output_dir, "detection_" + self.etype + "_" + self.hash + ".yaml"), "w") as yamlfile:
+        with open(
+            os.path.join(self.output_dir, "detection_" + self.etype + "_" + self.hash + ".yaml"), "w"
+        ) as yamlfile:
             yaml.dump(event_data, yamlfile, default_flow_style=False, sort_keys=False)
