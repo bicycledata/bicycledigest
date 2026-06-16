@@ -1,6 +1,11 @@
 # bicycledigest
 Process data from bicycle logger
 
+## Setup
+sudo apt install -y cmake
+sudo apt install -y libcairo2-dev pkg-config python3-dev
+sudo apt install -y libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-shape0 libxcb-xinerama0 libxcb-xkb1 libxkbcommon-x11-0
+
 ## Usage
 
 1. Provide a correct `config.yaml`. It is expected to reside in the same directory as `bicycledigest.py`. 
