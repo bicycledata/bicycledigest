@@ -68,7 +68,7 @@ class BicycleSession:
 
         df = pd.read_csv(self.button_file, on_bad_lines="skip")
         df = df.loc[df["duration"] > 0.01]
-        df = df.assign(time=pd.to_datetime(df["time"]))  # convert string UTC time to pd.DateTime
+        df = df.assign(time=pd.to_datetime(df["time"], format="mixed", yearfirst=True, dayfirst=False))  # convert string UTC time to pd.DateTime
         df = df.assign(timedelta=pd.to_timedelta(df["duration"], unit="s"))  # timedelta = duration as pd.Timedelta
         df = df.assign(press_start=df["time"] - df["timedelta"])
 
@@ -83,7 +83,7 @@ class BicycleSession:
         logging.info("Loading gps CSV file: %s", filename)
 
         df = pd.read_csv(self.gps_file, on_bad_lines="skip")
-        df = df.assign(time=pd.to_datetime(df["time"]))  # convert string UTC time to pd.DateTime
+        df = df.assign(time=pd.to_datetime(df["time"], format="mixed", yearfirst=True, dayfirst=False))  # convert string UTC time to pd.DateTime
         df = df.astype({"latitude": float, "longitude": float})  # make sure values are floats
 
         return df
@@ -98,7 +98,7 @@ class BicycleSession:
         logging.info("Loading lidar CSV file: %s", filename)
 
         df = pd.read_csv(self.lidar_file, on_bad_lines="skip")
-        df = df.assign(time=pd.to_datetime(df["time"]))  # convert strin UTC time to pd.DateTime
+        df = df.assign(time=pd.to_datetime(df["time"], format="mixed", yearfirst=True, dayfirst=False))  # convert strin UTC time to pd.DateTime
 
         if "distance [cm]" in df.columns:
             logging.info("Removing units from variable names in the header in %s.", filename)
